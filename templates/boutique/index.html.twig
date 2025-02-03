@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Boutique{% endblock %}
+
+{% block body %}
+    <div class="card col-md-12">
+        <div class="card-header">
+            <a class="btn-back text-secondary" href="/info/R401/">
+                <i class="fas fa-2x fa-arrow-circle-left"></i>
+            </a>
+            <h3>
+                <i class="fas fa-store"></i>
+                Boutique
+                <span class="badge badge-pill badge-info">04</span>
+                rayon(s) proposé(s)
+            </h3>
+        </div>
+        <div class="card-body row">
+            {% for categorie in categories %}
+            <div class="col-md-3" id="{{ categorie.id }}">
+                <div class="card clickable" onclick="location = '{{ path('app_boutique_rayon', {'idCategorie': categorie.id}) }}'">
+                    <img src="{{ asset(categorie.visuel) }}" class="card-img-top" alt="Image {{ categorie.libelle }}">
+                    <div class="card-body">
+                        <h4 class="card-title">
+                            {{ categorie.libelle }}
+                        </h4>
+                        <p class="card-text">
+                            <i>
+                                {{ categorie.texte }}
+                            </i>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

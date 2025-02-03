@@ -1,0 +1,36 @@
+{# barre de navigation  #}
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+	<a class="navbar-brand" href="{{ path("app_default_index") }}">
+		<i class="fas fa-home"></i>
+		Accueil Boutique
+	</a>
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<div class="collapse navbar-collapse" id="navbarsExampleDefault">
+		<ul class="navbar-nav mr-auto">
+			<li class="nav-item">
+				<a class="nav-link" href="{{ path("app_boutique") }}">
+					<i class="fas fa-store"></i>
+					Boutique
+				</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="{{ path("app_default_contact") }}">
+					<i class="fas fa-comments"></i>
+					Contact
+				</a>
+			</li>
+			{# TODO : ajouter au fil des TPs les autres éléments du menu #}
+		</ul>
+		<!-- Début champ de recherche -->
+		{# TODO #}
+		<!-- Fin champ de recherche -->
+		<!-- Début menu des monnaies -->
+		{# TODO #}
+		<!-- Fin menu des monnaies -->
+		<!-- Début menu des langues -->
+		{# TODO #}
+		<!-- Fin Menu des langues -->
+	</div>
+</nav>

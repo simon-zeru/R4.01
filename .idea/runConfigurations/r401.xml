@@ -1,0 +1,6 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="r401" type="PhpBuiltInWebServerConfigurationType" factoryName="PHP Built-in Web Server" document_root="$PROJECT_DIR$/public" port="8000">
+    <CommandLine parameters="-dxdebug.start_with_request=yes -dxdebug.idekey=PHPSTORM -dxdebug.mode=debug" workingDirectory="$PROJECT_DIR$/public" />
+    <method v="2" />
+  </configuration>
+</component>
