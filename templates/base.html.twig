@@ -1,17 +1,56 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        {% block stylesheets %}
-        {% endblock %}
-
-        {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+<html lang="fr">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="Démo SF">
+		<meta name="author" content="UGA/IUT2/INFO">
+		<link rel="icon" href="{{ asset('images/favicon.ico') }}">
+		<title>
+			{% block title %}
+				{{ title }}
+			{%  endblock %}
+		</title>
+		<!-- CSS : Bootstrap, Fontawsome, projet (styles communs à tout le projet) -->
+		<link href="{{ asset('css/bootstrap-4/bootstrap.min.css') }}" rel="stylesheet">
+		<link href="{{ asset('css/fontawsome-5.all.min.css') }}" rel="stylesheet">
+		<link href="{{ asset('css/projet.css') }}" rel="stylesheet">
+		<!-- début du block css spécifique -->
+		{% block css %}{%  endblock %}
+		<!-- fin du block css -->
+	</head>
+	<body>
+		<!-- début de la navbar -->
+		{% include "navbar.html.twig" %}
+		<!-- fin de la navbar -->
+		<main role="main" class="container-fluid">
+			<div class="row">
+				<div class="col-md-10">
+					<div
+						class="main-div">
+						<!-- début du block body -->
+						{%  block body %}
+							{ body }}
+						{%  endblock %}
+						<!-- fin du block body -->
+					</div>
+				</div>
+			</div>
+		</main>
+		<!-- JS : JQuery, Bootstrap -->
+		<script src="{{ asset('js/jquery-3/jquery.slim.min.js') }}"></script>
+		<script src="{{ asset('js/bootstrap-4/bootstrap.bundle.min.js') }}"></script>
+		<script>
+			$(function () { 
+				// Activation tooltip bootstrap sur la page
+				$('[data-toggle="tooltip"]').tooltip();
+				// Script du bouton de recherche
+				// TODO
+			});
+		</script>
+		<!-- debut du block js spécifique -->
+		{% block js %}{%  endblock %}
+		<!-- fin du block js spécifique -->
+	</body>
 </html>
