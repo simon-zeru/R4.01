@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="fr" target-language="en" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="K1XEeFd" resname="navbar.titre">
+        <source>navbar.titre</source>
+        <target>
+            Home Store
+        </target>
+      </trans-unit>
+      <trans-unit id="kuhtb5p" resname="navbar.boutique">
+        <source>navbar.boutique</source>
+        <target>Store</target>
+      </trans-unit>
+      <trans-unit id="nCSBDIb" resname="navbar.contact">
+        <source>navbar.contact</source>
+        <target>Contact</target>
+      </trans-unit>
+      <trans-unit id="BPIc8sV" resname="default.contact.message_contact">
+        <source>default.contact.message_contact</source>
+        <target>Stay in touch</target>
+      </trans-unit>
+      <trans-unit id="GzcgurK" resname="default.contact.semestre">
+        <source>default.contact.semestre</source>
+        <target>BUT INFO Semester 4</target>
+      </trans-unit>
+      <trans-unit id="36sudtl" resname="default.contact.module">
+        <source>default.contact.module</source>
+        <target>Module R4.01</target>
+      </trans-unit>
+      <trans-unit id="5vaiGTv" resname="default.index.acceuil">
+        <source>default.index.acceuil</source>
+        <target>
+        Home</target>
+      </trans-unit>
+      <trans-unit id="KrOiUCO" resname="default.index.nom_boutique">
+        <source>default.index.nom_boutique</source>
+        <target>R4.01 Store</target>
+      </trans-unit>
+      <trans-unit id="hoEqE97" resname="default.index.message_rien_a_vendre">
+        <source>default.index.message_rien_a_vendre</source>
+        <target>
+            Nothing to trade, we just want to learn...
+        </target>
+      </trans-unit>
+      <trans-unit id="BjHvG9l" resname="navbar.search_message">
+        <source>navbar.search_message</source>
+        <target>search item(s)...</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

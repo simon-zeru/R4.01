@@ -12,7 +12,10 @@
             </a>
             <h3>
                 <i class="fas fa-comments"></i>
-                Garder le contact </h3>
+                {% trans %}
+                    default.contact.message_contact
+                {% endtrans %}
+            </h3>
         </div>
         <div class="card-body">
             <div class="card clickable"
@@ -21,10 +24,12 @@
                 <div class="card-body">
                     <h1 class="card-title">
                         <i class="fas fa-code"></i>
-                        BUT INFO Semestre 4</h1>
+                        {% trans %}default.contact.semestre{% endtrans %}</h1>
                     <h2 class="card-title">
                         <i class="fab fa-symfony"></i>
-                        Module R4.01</h2>
+                        {% trans %}
+                            default.contact.module
+                        {% endtrans %}</h2>
                     <p>
                         <i class="far fa-copyright"></i>
                         Ph. Martin, 2022/24</p>

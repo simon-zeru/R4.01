@@ -42,11 +42,15 @@
 		<script src="{{ asset('js/jquery-3/jquery.slim.min.js') }}"></script>
 		<script src="{{ asset('js/bootstrap-4/bootstrap.bundle.min.js') }}"></script>
 		<script>
-			$(function () { 
+			$(function () {
 				// Activation tooltip bootstrap sur la page
 				$('[data-toggle="tooltip"]').tooltip();
 				// Script du bouton de recherche
-				// TODO
+				$("#searchButton").click(function () {
+					var searchString = $('#searchString').val().trim();
+					location = "{{ path('nom_de_la_route', {'_locale': app.request.attributes.get('_locale'), 'search': '__SEARCH__'}) }}";
+					return false;
+				});
 			});
 		</script>
 		<!-- debut du block js spécifique -->
