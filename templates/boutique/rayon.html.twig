@@ -20,7 +20,7 @@
         <div class="card-body row">
             {% for produit in produits %}
                 <div class="col-md-4">
-                    <div class="card clickable" onclick="location = '{# {{ path("app_panier_ajouter", {'idProduit': produit.id}) }} #}'"
+                    <div class="card clickable" onclick="location = '{{ path("app_panier_ajouter", {'idProduit': produit.id, 'quantite': 1}) }}'"
                          data-toggle="tooltip" title="Ajouter <b>{{ produit.libelle }}</b> à mon panier"
                          data-placement="bottom" data-html="true" data-container="body">
                         <img src="{{ asset(produit.visuel) }}" class="card-img-produit" alt="{{ produit.libelle }}">
