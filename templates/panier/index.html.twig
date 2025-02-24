@@ -1,0 +1,103 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Panier{% endblock %}
+
+{% block body %}
+<div class="card col-md-12">
+    <div class="card-header">
+        <a class="btn-back text-secondary" href="/info/R401/fr/boutique/">
+            <i class="fas fa-2x fa-arrow-circle-left"></i>
+        </a>
+        <h3>
+            <i class="fas fa-shopping-cart"></i>
+            <span class="badge badge-pill badge-danger">0</span>
+            produit(s) - montant :
+            <b>{{ total }}</b>
+        </h3>
+        <div class="col-md-6 align-self-center btn-group btn-group" role="group">
+            <a class="btn btn-primary" href="/info/R401/fr/panier/commander"> {# TODO #}
+                Passer la commande
+            </a>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <table class="table table-striped table-sm table-hover">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>Produit</th>
+                    <th class="text-right">Prix</th>
+                    <th>Quantité</th>
+                    <th class="text-right">Total</th>
+                    <th>Supprimer</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for article in panier %}
+                <tr>
+                    <td>
+                        <img src="{{ asset(article.produit.visuel) }}" class="cart-img-produit" alt="{{ article.produit.libelle }}">
+                    </td>
+                    <td>
+                        <a href="{{ path('app_boutique_rayon', {'idCategorie': article.produit.idCategorie}) }}">
+                            <b>{{ article.produit.libelle }}</b>
+                        </a>
+                    </td>
+                    <td class="text-right">
+                         {{ article.produit.prix }} €
+                    </td>
+                    <td>
+                        <a href="{{ path('app_panier_enlever', {'idProduit': article.produit.id, 'quantite': 1}) }}">
+                            <i class="fas fa-minus-square text-muted"></i>
+                        </a>
+                        {{ article.quantite }}
+                        <a href="{{ path('app_panier_ajouter', {'idProduit': article.produit.id, 'quantite': 1}) }}">
+                            <i class="fas fa-plus-square text-muted"></i>
+                        </a>
+                    </td>
+                    <td class="text-right">
+                        {{ article.produit.prix * article.quantite }} €
+                    </td>
+                    <td>
+                        <a href="{{ path('app_panier_supprimer', {'idProduit': article.produit.id }) }}">
+                            <i class="fas fa-trash text-muted" data-toggle="tooltip" title="Supprimer <b>{{ article.produit.libelle }}</b>" data-placement="right" data-html="true"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+                <tfoot>
+                <tr>
+                    <th class="text-right" colspan="4">
+                        Total
+                    </th>
+                    <th class="text-right">
+                        {{ total }}
+                    </th>
+                    <th>
+                        <a href="{{ path('app_panier_vider') }}">
+                            <i class="fas fa-trash text-muted" data-toggle="tooltip" title="Vider tout le Panier" data-placement="right" data-html="true"></i>
+                        </a>
+                    </th>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+    <div class="card-body">
+        {% for article in panier %}
+
+        <h5>
+            <i>Ton panier est vide !<br>
+                Voudrais-tu briser notre petit coeur fragile de commerçant ?<br><br>
+            </i>
+            <a href="{{ path('app_boutique') }}">
+                <i class="fas fa-2x fa-heart-broken text-danger text-blink"></i>
+            </a>
+        </h5>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
