@@ -2,21 +2,21 @@
 namespace App\Service;
 
 use Symfony\Component\HttpFoundation\RequestStack;
-use App\Service\BoutiqueService;
+use App\Repository\ProduitRepository;
 
 class PanierService
 {
     ////////////////////////////////////////////////////////////////////////////
     private $session;   // Le service session
-    private $boutique;  // Le service boutique
+    private $product;   // L'objet produit
     private $panier;    // Tableau associatif, la clé est l'idProduit, la valeur la quantité
                         //   donc $this->panier[$idProduit] = quantité du produit dont l'id = $idProduit
     const PANIER_SESSION = 'panier'; // Nom de la variable de session pour stocker le panier
 
     // Constructeur du service
-    public function __construct(RequestStack $requestStack, BoutiqueService $boutique)
+    public function __construct(RequestStack $requestStack, ProduitRepository $produit)
     {
-        $this->boutique = $boutique;
+        $this->product = $produit;
         $this->session = $requestStack->getSession();
         // Récupération du panier en session s'il existe, sinon initialisation à un tableau vide
         $this->panier = $this->session->get(self::PANIER_SESSION) ?? [];
@@ -27,7 +27,7 @@ class PanierService
     {
         $total = 0.0;
         foreach ($this->panier as $idArticle => $quantite) {
-            $produit = $this->boutique->findProduitById($idArticle);
+            $produit = $this->product->find($idArticle);
             if ($produit) {
                 $total += $produit->prix * $quantite;
             }
@@ -93,7 +93,7 @@ class PanierService
     {
         $contenu = [];
         foreach ($this->panier as $idArticle => $quantite) {
-            $produit = $this->boutique->findProduitById($idArticle);
+            $produit = $this->product->find($idArticle);
             if ($produit) {
                 $contenu[] = [
                     "produit"   => $produit,
