@@ -1,73 +1,108 @@
 <?php
 
 namespace App\Controller;
-use App\Service\PanierService;
+
 use App\Repository\ProduitRepository;
+use App\Repository\UsagerRepository;
+use App\Service\BoutiqueService;
+use App\Service\PanierService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+#[Route(path: '/{_locale}/panier', requirements: ['_locale'=>'%app.supported_locales%'])]
 final class PanierController extends AbstractController
 {
-    #[Route('/{_locale}/panier/', name: 'app_panier_index')]
-    public function index(PanierService $panierService): Response
+    #[Route('/', name: 'app_panier_index')]
+    public function index(PanierService $panierservice): Response
     {
-        // Récupération du contenu du panier via le service
-        $contenuPanier = $panierService->getContenu();
-        $total = $panierService->getTotal();
-
+        $panier = $panierservice->getContenu();
+        dump($panier);
         return $this->render('panier/index.html.twig', [
-            'panier' => $contenuPanier,
-            'total' => $total,
+            'panier' => $panier,
         ]);
     }
 
-    #[Route('/{_locale}/panier/ajouter/{idProduit}/{quantite}', name: 'app_panier_ajouter')]
-    public function ajouter(PanierService $panierService, ProduitRepository $produit, $idProduit, $quantite): Response
+    #[Route('/ajouter/{idProduit}/{quantite}',
+        name: 'app_panier_ajouter',
+        requirements: ['idProduit' => '\d+', 'quantite' => '\d+'],
+        defaults: ['quantite' => 1],
+    )]
+    public function ajouter(ProduitRepository $produitRepository, PanierService $panierservice, int $idProduit, int $quantite): Response
     {
-        if ($produit->find($idProduit) == null) {
-            throw $this->createNotFoundException('Le produit n\'existe pas');
+        if ($produitRepository->find($idProduit)==null) {
+            $this->createNotFoundException("Le produit numéro ".$idProduit." n'existe pas.");
+        }
+        $panierservice->ajouterProduit($idProduit, $quantite);
+        return $this->redirectToRoute('app_panier_index');
+    }
+
+    #[Route('/enlever/{idProduit}/{quantite}',
+        name: 'app_panier_enlever',
+        requirements: ['idProduit' => '\d+', 'quantite' => '\d+'],
+        defaults: ['quantite' => 1],
+    )]
+    public function enlever(ProduitRepository $produitRepository, PanierService $panierservice, int $idProduit, int $quantite): Response
+    {
+        if ($produitRepository->find($idProduit)==null) {
+            $this->createNotFoundException("Le produit numéro ".$idProduit." n'existe pas.");
+        }
+        $panierservice->enleverProduit($idProduit, $quantite);
+        return $this->redirectToRoute('app_panier_index');
+    }
+
+    #[Route('/supprimer/{idProduit}',
+        name: 'app_panier_supprimer',
+        requirements: ['idProduit' => '\d+'],
+    )]
+    public function supprimer(ProduitRepository $produitRepository, PanierService $panierservice, int $idProduit): Response
+    {
+        if ($produitRepository->find($idProduit)==null) {
+            $this->createNotFoundException("Le produit numéro ".$idProduit." n'existe pas.");
+        }
+        $panierservice->supprimerProduit($idProduit);
+        return $this->redirectToRoute('app_panier_index');
+    }
+
+    #[Route('/vider',
+        name: 'app_panier_vider',
+    )]
+    public function vider(PanierService $panierservice): Response
+    {
+        $panierservice->vider();
+        return $this->redirectToRoute('app_panier_index');
+    }
+
+    public function nombreProduits(PanierService $panier): Response {
+        $nbProduit = $panier->getNombreProduits();
+        return $this->render('panier/nombreProduits.html.twig', [
+            'nbProduit' => $nbProduit,
+        ]);
+    }
+
+    #[Route('/commander',
+        name: 'app_panier_commander',
+    )]
+    public function commander(PanierService $panierservice, UsagerRepository $usagerRepository): Response
+    {
+        $usager = $usagerRepository->find(1);
+
+        if ($usager==null) {
+            $this->createNotFoundException("L'usager numéro 1 n'existe pas.");
         }
 
-        $panierService->ajouterProduit($idProduit, $quantite);
+        $commande = $panierservice->panierToCommande($usager);
+        $commande->setUsager($usager);
 
-        return $this->redirectToRoute('app_panier_index');
-
-    }
-    #[Route('/{_locale}/panier/supprimer/{idProduit}', name: 'app_panier_supprimer')]
-    public function supprimer(PanierService $panierService, ProduitRepository $produit, $idProduit, $quantite): Response
-    {
-
-        if ($produit->find($idProduit) == null) {
-            throw $this->createNotFoundException('Le produit n\'existe pas');
-        }
-
-        $panierService->supprimerProduit($idProduit);
-
-        return $this->redirectToRoute('app_panier_index');
-
-    }
-    #[Route('/{_locale}/panier/enlever/{idProduit}/{quantite}', name: 'app_panier_enlever')]
-    public function enlever(PanierService $panierService, ProduitRepository $produit, $idProduit, $quantite): Response
-    {
-        if ($produit->find($idProduit) == null) {
-            throw $this->createNotFoundException('Le produit n\'existe pas');
-        }
-        $panierService->enleverProduit($idProduit, $quantite);
-
-        return $this->redirectToRoute('app_panier_index');
-
+        return $this->render('commande.html.twig', [
+                    'nom' => $usager->getNom(),
+                    'prenom' => $usager->getPrenom(),
+                    'numCommande' => $commande->getId(),
+                    'dateCommande' => $commande->getDateCreation(),
+                ]);
     }
 
-    #[Route('/{_locale}/panier/vider', name: 'app_panier_vider')]
-    public function vider(PanierService $panierService, $idProduit, $quantite): Response
-    {
 
-        $panierService->vider();
-
-        return $this->redirectToRoute('app_panier_index');
-
-    }
 
 
 }

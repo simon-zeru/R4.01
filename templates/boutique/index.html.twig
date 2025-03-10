@@ -1,33 +1,29 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Boutique{% endblock %}
+{% block title %}{{ 'boutique.index.header' | trans }}{% endblock %}
 
 {% block body %}
     <div class="card col-md-12">
         <div class="card-header">
-            <a class="btn-back text-secondary" href="/info/R401/">
+            <a class="btn-back text-secondary" href="/">
                 <i class="fas fa-2x fa-arrow-circle-left"></i>
             </a>
             <h3>
                 <i class="fas fa-store"></i>
-                Boutique
-                <span class="badge badge-pill badge-info">04</span>
-                rayon(s) proposé(s)
+                {{ 'boutique.index.header' | trans }}
+                <span class="badge badge-pill badge-info">{{ categories | length }}</span>
+                {{ 'boutique.index.rayon' | trans }}
             </h3>
         </div>
         <div class="card-body row">
-            {% for categorie in categories %}
-            <div class="col-md-3" id="{{ categorie.id }}">
-                <div class="card clickable" onclick="location = '{{ path('app_boutique_rayon', {'idCategorie': categorie.id}) }}'">
-                    <img src="{{ asset(categorie.visuel) }}" class="card-img-top" alt="Image {{ categorie.libelle }}">
+            {% for categories in categories %}
+            <div class="col-md-3">
+                <div class="card clickable" onclick="location = '{{ path('app_boutique_rayon', { 'idCategorie': categories.id }) }}'">
+                    <img src="{{asset(categories.visuel)}}" class="card-img-top" alt="Fruits">
                     <div class="card-body">
-                        <h4 class="card-title">
-                            {{ categorie.libelle }}
-                        </h4>
+                        <h4 class="card-title">{{ categories.libelle }}</h4>
                         <p class="card-text">
-                            <i>
-                                {{ categorie.texte }}
-                            </i>
+                            <i>{{ categories.texte }}</i>
                         </p>
                     </div>
                 </div>

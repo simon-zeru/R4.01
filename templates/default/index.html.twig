@@ -1,9 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-	{% trans %}
-		default.index.acceuil
-	{% endtrans %}
+	{{ 'default.index.header' | trans }}
 {% endblock %}
 
 {% block body %}
@@ -11,9 +9,7 @@
 		<div class="card-header">
 			<h3>
 				<i class="fas fa-home"></i>
-				{% trans %}
-					default.index.nom_boutique
-				{% endtrans %}
+				{{ 'default.index.title' | trans }}
 			</h3>
 		</div>
 		<div class="card-body">
@@ -21,11 +17,7 @@
 				<img src="{{asset("images/epicerie.jpg")}}" class="card-img-top" alt="Logo Boutique"/>
 				<div class="card-body">
 					<p class="card-text">
-						<i>
-							{% trans %}
-								default.index.message_rien_a_vendre
-							{% endtrans %}
-						</i>
+						<i>{{ 'default.index.rien' | trans }}</i>
 					</p>
 				</div>
 			</div>

@@ -9,7 +9,7 @@
 		<link rel="icon" href="{{ asset('images/favicon.ico') }}">
 		<title>
 			{% block title %}
-				{{ title }}
+				TODO : définir contenu block title
 			{%  endblock %}
 		</title>
 		<!-- CSS : Bootstrap, Fontawsome, projet (styles communs à tout le projet) -->
@@ -31,7 +31,9 @@
 						class="main-div">
 						<!-- début du block body -->
 						{%  block body %}
-							{ body }}
+							<h1>
+								<i>TODO : définir contenu block body</i>
+							</h1>
 						{%  endblock %}
 						<!-- fin du block body -->
 					</div>
@@ -41,18 +43,26 @@
 		<!-- JS : JQuery, Bootstrap -->
 		<script src="{{ asset('js/jquery-3/jquery.slim.min.js') }}"></script>
 		<script src="{{ asset('js/bootstrap-4/bootstrap.bundle.min.js') }}"></script>
-{#		<script>#}
-{#			$(function () {#}
-{#				// Activation tooltip bootstrap sur la page#}
-{#				$('[data-toggle="tooltip"]').tooltip();#}
-{#				// Script du bouton de recherche#}
-{#				$("#searchButton").click(function () {#}
-{#					var searchString = $('#searchString').val().trim();#}
-{#					location = "{{ path('', {'_locale': app.request.attributes.get('_locale'), 'search': '__SEARCH__'}) }}";#}
-{#					return false;#}
-{#				});#}
-{#			});#}
-{#		</script>#}
+		<script>
+			$(function () {
+				// Activation tooltip bootstrap sur la page
+				$('[data-toggle="tooltip"]').tooltip();
+
+				// Script du bouton de recherche
+				$("#searchButton").click(function () {
+					var searchString = $('#searchString').val().trim();
+					if (searchString !== "") {
+						var searchUrl = '{{ path("app_boutique_cherche", { recherche: "recherche_placeholder" }) }}';
+						searchUrl = searchUrl.replace('recherche_placeholder', encodeURIComponent(searchString));
+						location = searchUrl;
+					} else {
+						alert("Veuillez entrer un terme de recherche");
+					}
+					return false;
+				});
+			});
+		</script>
+
 		<!-- debut du block js spécifique -->
 		{% block js %}{%  endblock %}
 		<!-- fin du block js spécifique -->

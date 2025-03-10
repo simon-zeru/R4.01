@@ -22,18 +22,18 @@ class Categorie
     #[ORM\Column(length: 255)]
     private ?string $visuel = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[ORM\Column(type: Types::TEXT)]
     private ?string $texte = null;
 
     /**
      * @var Collection<int, Produit>
      */
     #[ORM\OneToMany(targetEntity: Produit::class, mappedBy: 'categorie', orphanRemoval: true)]
-    private Collection $products;
+    private Collection $produits;
 
     public function __construct()
     {
-        $this->products = new ArrayCollection();
+        $this->produits = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -70,7 +70,7 @@ class Categorie
         return $this->texte;
     }
 
-    public function setTexte(?string $texte): static
+    public function setTexte(string $texte): static
     {
         $this->texte = $texte;
 
@@ -80,27 +80,27 @@ class Categorie
     /**
      * @return Collection<int, Produit>
      */
-    public function getProducts(): Collection
+    public function getProduits(): Collection
     {
-        return $this->products;
+        return $this->produits;
     }
 
-    public function addProduct(Produit $product): static
+    public function addProduit(Produit $produit): static
     {
-        if (!$this->products->contains($product)) {
-            $this->products->add($product);
-            $product->setCategorie($this);
+        if (!$this->produits->contains($produit)) {
+            $this->produits->add($produit);
+            $produit->setCategorie($this);
         }
 
         return $this;
     }
 
-    public function removeProduct(Produit $product): static
+    public function removeProduit(Produit $produit): static
     {
-        if ($this->products->removeElement($product)) {
+        if ($this->produits->removeElement($produit)) {
             // set the owning side to null (unless already changed)
-            if ($product->getCategorie() === $this) {
-                $product->setCategorie(null);
+            if ($produit->getCategorie() === $this) {
+                $produit->setCategorie(null);
             }
         }
 

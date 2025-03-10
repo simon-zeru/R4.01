@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Contact
+    {{ 'default.contact.header' | trans }}
 {% endblock %}
 
 {% block body %}
@@ -12,30 +12,23 @@
             </a>
             <h3>
                 <i class="fas fa-comments"></i>
-                {% trans %}
-                    default.contact.message_contact
-                {% endtrans %}
-            </h3>
+                {{ 'default.contact.text' | trans }}			</h3>
         </div>
         <div class="card-body">
-            <div class="card clickable"
-                 onclick="location = '#TODO'">
+            <div class="card clickable" onclick="window.open('https://iut2.univ-grenoble-alpes.fr/l-iut2/qui-sommes-nous-/les-departements-de-l-iut2/informatique-info--149104.kjsp','_blank')">
                 <img src="{{asset("images/iut2_info.png")}}" class="card-img" alt="logo IUT2">
                 <div class="card-body">
                     <h1 class="card-title">
                         <i class="fas fa-code"></i>
-                        {% trans %}default.contact.semestre{% endtrans %}</h1>
+                        {{ 'default.contact.semestre' | trans }}	</h1>
                     <h2 class="card-title">
                         <i class="fab fa-symfony"></i>
-                        {% trans %}
-                            default.contact.module
-                        {% endtrans %}</h2>
+                        {{ 'default.contact.module' | trans }}	</h2>
                     <p>
                         <i class="far fa-copyright"></i>
-                        Ph. Martin, 2022/24</p>
+                        {{ 'default.contact.author' | trans }}	</p>
                 </div>
             </div>
         </div>
     </div>
 {% endblock %}
-

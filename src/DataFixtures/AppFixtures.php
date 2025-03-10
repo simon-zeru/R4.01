@@ -145,7 +145,7 @@ class AppFixtures extends Fixture
                 "texte" : "Usage interne ou externe",
                 "visuel" : "images/produits/gel.jpg",
                 "prix" : 100.00
-            },
+            }, 
             {
                 "id" : 11,
                 "idCategorie" : 4,
@@ -153,7 +153,7 @@ class AppFixtures extends Fixture
                 "texte" : "Passe incognito face aux virus",
                 "visuel" : "images/produits/masque.jpg",
                 "prix" : 200.0
-            },
+            }, 
             {
                 "id" : 12,
                 "idCategorie" : 4,
@@ -165,5 +165,3 @@ class AppFixtures extends Fixture
         ]
     JSON;
 }
-
-?>

@@ -16,16 +16,6 @@ class ProduitRepository extends ServiceEntityRepository
         parent::__construct($registry, Produit::class);
     }
 
-    /**
-    * @return Produit[] Returns an array of Produit objects
-    */
-    public function findByLibelleOrTexte(string $recherche): array {
-        // à compléter
-        // Il faut utiliser l’opérateur DQL/SQL « like » pour chercher tous les produits dont le libellé ou le texte contient la
-        // chaîne $recherche
-        return [];
-    }
-
     //    /**
     //     * @return Produit[] Returns an array of Produit objects
     //     */
@@ -50,4 +40,16 @@ class ProduitRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    public function findByLibelleOrTexte(string $recherche): array {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery(
+            'SELECT p
+                  FROM App\Entity\Produit p
+                  WHERE p.libelle LIKE :recherche
+                  OR p.texte LIKE :recherche
+         
+        ')->setParameter('recherche', '%'.$recherche.'%');
+        return $query->getResult();
+    }
 }

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ 'boutique.chercher.header' | trans }}{% endblock %}
+{% block title %}{{ 'boutique.product.header' | trans }} {{ categorie.libelle }}{% endblock %}
 
 {% block body %}
     <div class="card col-md-12">
@@ -10,25 +10,28 @@
             </a>
             <h3>
                 <i class="fas fa-store"></i>
-                {{ 'boutique.chercher.text' | trans }} <b>"{{ recherche }}"</b>
+                {{ 'boutique.product.header' | trans }} <b>{{ categorie.libelle }}</b>
                 <span class="badge badge-pill badge-info">{{ products | length }}</span>
-                {{ 'boutique.chercher.product' | trans }}
+                {{ 'boutique.product.product' | trans }}
             </h3>
         </div>
         <div class="card-body row">
-            {% for products in products %}
+            {% for product in products %}
             <div class="col-md-4">
-                <div class="card clickable" onclick="location = '/info/R401/fr/panier/ajouter/1'" data-toggle="tooltip" title="" data-placement="bottom" data-html="true" data-container="body" data-original-title="Ajouter <b>Pomme</b> à mon panier">
-                    <img src="{{asset(products.visuel)}} " class="card-img-produit" alt="{{ products.libelle }}">
+                <div class="card clickable"
+                     onclick="location = '{{ path('app_panier_ajouter', {'idProduit':product.id}) }}'"
+                     data-toggle="tooltip" title="" data-placement="bottom" data-html="true" data-container="body"
+                     data-original-title="Ajouter <b>Pomme</b> à mon panier">
+                    <img src="{{asset(product.visuel)}} " class="card-img-produit" alt="{{ product.libelle }}">
                     <div class="card-body">
-                        <h4 class="card-title">{{ products.libelle }}</h4>
+                        <h4 class="card-title">{{ product.libelle }}</h4>
                         <p class="card-text">
-                            <i>{{ products.texte }}</i>
+                            <i>{{ product.texte }}</i>
                         </p>
                         <h2>
 				<span class="badge badge-primary">
 					<i class="fas fa-cart-plus"></i>&nbsp;&nbsp;
-					{{ products.prix }}&nbsp;€
+					{{ product.prix }}&nbsp;€
 				</span>
                         </h2>
                     </div>
