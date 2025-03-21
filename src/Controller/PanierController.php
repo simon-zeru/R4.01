@@ -97,11 +97,5 @@ final class PanierController extends AbstractController
                     'dateCommande' => $commande->getDateCreation(),
                 ]);
     }
-    // TODO: Completer les vues
-
-    }
-
-
-
 
 }

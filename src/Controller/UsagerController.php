@@ -19,8 +19,17 @@ final class UsagerController extends AbstractController
     #[Route(name: 'app_usager_index', methods: ['GET'])]
     public function index(UsagerRepository $usagerRepository): Response
     {
-        return $this->render('usager/index.html.twig', [
-            'usagers' => $usagerRepository->findBy(array('id' => 1)),
+
+        $currentUser = $this->getUser();
+
+        $last_username = '';
+        if ($currentUser) {
+            $last_username = $currentUser->getEmail();
+        }
+
+        return $this->render('security/login.html.twig', [
+            'error' => false,
+            'last_username' => $last_username
         ]);
     }
 
