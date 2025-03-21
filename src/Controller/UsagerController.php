@@ -33,7 +33,7 @@ final class UsagerController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_usager_new', methods: ['GET', 'POST'])]
+    #[Route('/inscription', name: 'app_usager_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
     {
         $usager = new Usager();
