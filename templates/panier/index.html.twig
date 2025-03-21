@@ -1,103 +1,123 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Panier{% endblock %}
+{% block title %}Mon Panier{% endblock %}
 
 {% block body %}
-<div class="card col-md-12">
-    <div class="card-header">
-        <a class="btn-back text-secondary" href="/info/R401/fr/boutique/">
-            <i class="fas fa-2x fa-arrow-circle-left"></i>
-        </a>
-        <h3>
-            <i class="fas fa-shopping-cart"></i>
-            <span class="badge badge-pill badge-danger">0</span>
-            produit(s) - montant :
-            <b>{{ total }}</b>
-        </h3>
-        <div class="col-md-6 align-self-center btn-group btn-group" role="group">
-            <a class="btn btn-primary" href="/info/R401/fr/panier/commander"> {# TODO #}
-                Passer la commande
-            </a>
+    {% if panier is empty %}
+        <div class="card col-md-12">
+            <div class="card-header">
+                <a class="btn-back text-secondary" href="{{ path('app_boutique') }}">
+                    <i class="fas fa-2x fa-arrow-circle-left"></i>
+                </a>
+                <h3>
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="badge badge-pill badge-danger">0</span>
+                    produit(s) - montant :
+                    <b>0,00&nbsp;€</b>
+                </h3>
+            </div>
+            <div class="card-body">
+                <h5>
+                    <i>Ton panier est vide !<br>
+                        Voudrais-tu briser notre petit coeur fragile de commerçant ?<br><br>
+                    </i>
+                    <a href="{{ path('app_boutique') }}">
+                        <i class="fas fa-2x fa-heart-broken text-danger text-blink"></i>
+                    </a>
+                </h5>
+            </div>
         </div>
-    </div>
-    <div class="card-body">
-        <div class="row">
-            <table class="table table-striped table-sm table-hover">
-                <thead>
-                <tr>
-                    <th></th>
-                    <th>Produit</th>
-                    <th class="text-right">Prix</th>
-                    <th>Quantité</th>
-                    <th class="text-right">Total</th>
-                    <th>Supprimer</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for article in panier %}
-                <tr>
-                    <td>
-                        <img src="{{ asset(article.produit.visuel) }}" class="cart-img-produit" alt="{{ article.produit.libelle }}">
-                    </td>
-                    <td>
-                        <a href="{{ path('app_boutique_rayon', {'idCategorie': article.produit.idCategorie}) }}">
-                            <b>{{ article.produit.libelle }}</b>
-                        </a>
-                    </td>
-                    <td class="text-right">
-                         {{ article.produit.prix }} €
-                    </td>
-                    <td>
-                        <a href="{{ path('app_panier_enlever', {'idProduit': article.produit.id, 'quantite': 1}) }}">
-                            <i class="fas fa-minus-square text-muted"></i>
-                        </a>
-                        {{ article.quantite }}
-                        <a href="{{ path('app_panier_ajouter', {'idProduit': article.produit.id, 'quantite': 1}) }}">
-                            <i class="fas fa-plus-square text-muted"></i>
-                        </a>
-                    </td>
-                    <td class="text-right">
-                        {{ article.produit.prix * article.quantite }} €
-                    </td>
-                    <td>
-                        <a href="{{ path('app_panier_supprimer', {'idProduit': article.produit.id }) }}">
-                            <i class="fas fa-trash text-muted" data-toggle="tooltip" title="Supprimer <b>{{ article.produit.libelle }}</b>" data-placement="right" data-html="true"></i>
-                        </a>
-                    </td>
-                </tr>
-                {% endfor %}
-                </tbody>
-                <tfoot>
-                <tr>
-                    <th class="text-right" colspan="4">
-                        Total
-                    </th>
-                    <th class="text-right">
-                        {{ total }}
-                    </th>
-                    <th>
-                        <a href="{{ path('app_panier_vider') }}">
-                            <i class="fas fa-trash text-muted" data-toggle="tooltip" title="Vider tout le Panier" data-placement="right" data-html="true"></i>
-                        </a>
-                    </th>
-                </tr>
-                </tfoot>
-            </table>
+    {% else %}
+        <div class="card col-md-12">
+            <div class="card-header">
+                <a class="btn-back text-secondary" href="{{ path('app_boutique') }}">
+                    <i class="fas fa-2x fa-arrow-circle-left"></i>
+                </a>
+                <h3>
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="badge badge-pill badge-info">{{ panier|length }}</span>
+                    produit(s) - montant :
+                    <b>
+                        {% set total = 0 %}
+                        {% for item in panier %}
+                            {% set total = total + (item.produit.prix * item.quantite) %}
+                        {% endfor %}
+                        {{ total|number_format(2, ',', ' ') }}&nbsp;€
+                    </b>
+                </h3>
+                <div class="col-md-6 align-self-center btn-group btn-group" role="group">
+                    <a class="btn btn-primary" href="{{ path('app_panier_commander') }}">
+                        Passer la commande
+                    </a>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <table class="table table-striped table-sm table-hover">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th>Produit</th>
+                            <th class="text-right">Prix</th>
+                            <th>Quantité</th>
+                            <th class="text-right">Total</th>
+                            <th>Supprimer</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in panier %}
+                            <tr>
+                                <td>
+                                    <img src="{{ asset(item.produit.visuel) }}" class="cart-img-produit" alt="{{ item.produit.libelle }}">
+                                </td>
+                                <td>
+                                    <a href="{{ path('app_boutique_rayon', {'idCategorie': item.produit.id}) }}">
+                                        <b>{{ item.produit.libelle }}</b>
+                                    </a>
+                                </td>
+                                <td class="text-right">
+                                    {{ item.produit.prix|number_format(2, ',', ' ') }}&nbsp;€
+                                </td>
+                                <td>
+                                    <a href="{{ path('app_panier_enlever', {'idProduit': item.produit.id}) }}">
+                                        <i class="fas fa-minus-square text-muted"></i>
+                                    </a>
+                                    {{ item.quantite }}
+                                    <a href="{{ path('app_panier_ajouter', {'idProduit': item.produit.id}) }}">
+                                        <i class="fas fa-plus-square text-muted"></i>
+                                    </a>
+                                </td>
+                                <td class="text-right">
+                                    {{ (item.produit.prix * item.quantite)|number_format(2, ',', ' ') }}&nbsp;€
+                                </td>
+                                <td>
+                                    <a href="{{ path('app_panier_supprimer', {'idProduit': item.produit.id}) }}">
+                                        <i class="fas fa-trash text-muted" data-toggle="tooltip" title="Supprimer {{ item.produit.libelle }}"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <th class="text-right" colspan="4">Total</th>
+                            <th class="text-right">
+                                {% set total = 0 %}
+                                {% for item in panier %}
+                                    {% set total = total + (item.produit.prix * item.quantite) %}
+                                {% endfor %}
+                                {{ total|number_format(2, ',', ' ') }}&nbsp;€
+                            </th>
+                            <th>
+                                <a href="{{ path('app_panier_vider') }}">
+                                    <i class="fas fa-trash text-muted" data-toggle="tooltip" title="Vider tout le Panier"></i>
+                                </a>
+                            </th>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
-    <div class="card-body">
-        {% for article in panier %}
-
-        <h5>
-            <i>Ton panier est vide !<br>
-                Voudrais-tu briser notre petit coeur fragile de commerçant ?<br><br>
-            </i>
-            <a href="{{ path('app_boutique') }}">
-                <i class="fas fa-2x fa-heart-broken text-danger text-blink"></i>
-            </a>
-        </h5>
-        {% endfor %}
-    </div>
-</div>
+    {% endif %}
 {% endblock %}

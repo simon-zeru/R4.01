@@ -9,6 +9,8 @@ security:
             entity:
                 class: App\Entity\Usager
                 property: email
+    role_hierarchy:
+        ROLE_ADMIN: ROLE_CLIENT
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -16,6 +18,14 @@ security:
         main:
             lazy: true
             provider: app_user_provider
+            form_login:
+                login_path: app_login
+                check_path: app_login
+                enable_csrf: true
+            logout:
+                path: app_logout
+                # where to redirect after logout
+                target: app_default_index
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -26,8 +36,8 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: /usager/index.html.twig, roles: ROLE_CLIENT }
+        - { path: /commander, roles: ROLE_CLIENT }
 
 when@test:
     security:

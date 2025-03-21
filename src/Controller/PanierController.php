@@ -85,11 +85,7 @@ final class PanierController extends AbstractController
     )]
     public function commander(PanierService $panierservice, UsagerRepository $usagerRepository): Response
     {
-        $usager = $usagerRepository->find(1);
-
-        if ($usager==null) {
-            $this->createNotFoundException("L'usager numéro 1 n'existe pas.");
-        }
+        $usager = $this->getUser();
 
         $commande = $panierservice->panierToCommande($usager);
         $commande->setUsager($usager);
@@ -100,6 +96,9 @@ final class PanierController extends AbstractController
                     'numCommande' => $commande->getId(),
                     'dateCommande' => $commande->getDateCreation(),
                 ]);
+    }
+    // TODO: Completer les vues
+
     }
 
 
