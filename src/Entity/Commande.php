@@ -29,7 +29,7 @@ class Commande
     /**
      * @var Collection<int, LigneCommande>
      */
-    #[ORM\OneToMany(targetEntity: LigneCommande::class, mappedBy: 'commmande', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: LigneCommande::class, mappedBy: 'commande', orphanRemoval: true)]
     private Collection $ligneCommandes;
 
     public function __construct()
@@ -90,7 +90,8 @@ class Commande
     {
         if (!$this->ligneCommandes->contains($ligneCommande)) {
             $this->ligneCommandes->add($ligneCommande);
-            $ligneCommande->setCommmande($this);
+            $ligneCommande->setCommande($this);
+
         }
 
         return $this;
@@ -100,11 +101,22 @@ class Commande
     {
         if ($this->ligneCommandes->removeElement($ligneCommande)) {
             // set the owning side to null (unless already changed)
-            if ($ligneCommande->getCommmande() === $this) {
-                $ligneCommande->setCommmande(null);
+            if ($ligneCommande->getCommande() === $this) {
+                $ligneCommande->setCommande(null);
             }
         }
 
         return $this;
     }
+
+    public function getTotal(): float
+        {
+            $total = 0;
+
+            foreach ($this->ligneCommandes as $ligneCommande) {
+                $total += $ligneCommande->getPrix() * $ligneCommande->getQuantite();
+            }
+            return $total;
+        }
+
 }

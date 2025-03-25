@@ -5,6 +5,7 @@ use App\Repository\ProduitRepository;
 use Symfony\Component\HttpFoundation\RequestStack;
 use App\Entity\Commande;
 use App\Entity\LigneCommande;
+use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Usager;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -15,16 +16,18 @@ class PanierService
     private $boutique;  // Le service boutique
     private $panier;    // Tableau associatif, la clé est un idProduit, la valeur associée est une quantité
                         //   donc $this->panier[$idProduit] = quantité du produit dont l'id = $idProduit
+    private $entityManager;
     const PANIER_SESSION = 'panier'; // Le nom de la variable de session pour faire persister $this->panier
 
     // Constructeur du service
-    public function __construct(RequestStack $requestStack, ProduitRepository $produitRepository)
+    public function __construct(RequestStack $requestStack, ProduitRepository $produitRepository, ManagerRegistry $doctrine)
     {
         // Récupération des services session et BoutiqueService
         $this->boutique = $produitRepository;
         $this->session = $requestStack->getSession();
         // Récupération du panier en session s'il existe, init. à vide sinon
         $this->panier = $this->session->get(self::PANIER_SESSION, array());
+        $this->entityManager = $doctrine->getManager();
     }
 
     // Renvoie le montant total du panier
@@ -107,52 +110,41 @@ class PanierService
     // Crée, pour cet usager, une commande (et ses lignes de commande) à partir du contenu du panier
     //   (s’il n’est pas vide). Le contenu du panier est supprimé à l’issue de ce traitement
     // @return commande l'entité Commande qui vient d'être créée
-    public function panierToCommande(Usager $usager) : ?Commande {
-        // Si le panier est vide, il n'y a rien à convertir en commande
-        if (empty($this->panier)) {
+    public function panierToCommande(Usager $usager): ?Commande
+    {
+        $panier = $this->getContenu();
+
+        if (empty($panier)) {
             return null;
         }
 
-        // Création d'une nouvelle commande
         $commande = new Commande();
         $commande->setUsager($usager);
-        $commande->setDateCreation(new \DateTime());
 
-        $totalCommande = 0;
+        foreach ($panier as $article) {
+            $produit = $article["produit"];
+            $quantite = $article["quantite"];
 
-        // Parcours de chaque produit du panier
-        foreach ($this->panier as $idProduit => $quantite) {
-            // Récupération du produit via le repository boutique
-            $produit = $this->boutique->find($idProduit);
-            if (!$produit) {
-                // Si le produit n'est pas trouvé, on passe au suivant
-                continue;
-            }
-
-            // Création d'une ligne de commande pour ce produit
             $ligneCommande = new LigneCommande();
             $ligneCommande->setProduit($produit);
             $ligneCommande->setQuantite($quantite);
-            $ligneCommande->setPrix($produit->getPrix());
+            $ligneCommande->setCommande($commande);
+            $ligneCommande->setPrix($article["produit"]->getPrix() * $quantite);
 
-            // Association de la ligne à la commande
             $commande->addLigneCommande($ligneCommande);
 
-            // Calcul du total de la commande
-            $totalCommande += $produit->getPrix() * $quantite;
+            $this->entityManager->persist($ligneCommande);
         }
 
-        $this->setPrix($totalCommande);
-
-        // Persistance de la commande en base de données
+        $commande->setDateCreation(new \DateTime());
+        $commande->setValidation(true);
         $this->entityManager->persist($commande);
         $this->entityManager->flush();
 
-        // Vidage du panier
         $this->vider();
-
         return $commande;
     }
+
 
 
 

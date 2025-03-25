@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Usager;
 use App\Entity\Commande;
+use App\Repository\CommandeRepository;
 use App\Form\UsagerType;
 use App\Repository\UsagerRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -17,19 +18,16 @@ use Symfony\Component\Routing\Attribute\Route;
 final class UsagerController extends AbstractController
 {
     #[Route(name: 'app_usager_index', methods: ['GET'])]
-    public function index(UsagerRepository $usagerRepository): Response
+    public function index(UsagerRepository $commandeRepository): Response
     {
 
-        $currentUser = $this->getUser();
+        $usager = $this->getUser();
 
-        $last_username = '';
-        if ($currentUser) {
-            $last_username = $currentUser->getEmail();
-        }
+        // Trouver les commandes en fonction de l'utilisateur
+        $commandes = $commandeRepository->findByUser($usager);
 
-        return $this->render('security/login.html.twig', [
-            'error' => false,
-            'last_username' => $last_username
+        return $this->render('panier/index.html.twig', [
+            'nbCommandes' => count($commandes),
         ]);
     }
 
@@ -59,5 +57,18 @@ final class UsagerController extends AbstractController
         ]);
     }
 
+    #[Route('/commandes',
+            name: 'app_usager_commandes',
+        )]
+    public function commandes(PanierService $panierservice, CommandeRepository $commandeRepository): Response
+    {
+        $usager = $this->getUser();
 
+        // Trouver les commandes en fonction de l'utilisateur
+        $commandes = $commandeRepository->findByUser($usager);
+
+        return $this->render('panier/commandes.html.twig', [
+                    'commandes' => $commandes
+                ]);
+    }
 }

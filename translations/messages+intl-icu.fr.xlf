@@ -23,7 +23,7 @@
       </trans-unit>
       <trans-unit id="L8KeYXd" resname="navbar.header">
         <source>navbar.header</source>
-        <target>Acceuil Boutique</target>
+        <target>Accueil Boutique</target>
       </trans-unit>
       <trans-unit id="kuhtb5p" resname="navbar.boutique">
         <source>navbar.boutique</source>

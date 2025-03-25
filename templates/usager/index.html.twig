@@ -1,39 +1,39 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Usager index{% endblock %}
+{% block title %}Compte{% endblock %}
 
 {% block body %}
-    <h1>Usager index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Email</th>
-                <th>Roles</th>
-                <th>Password</th>
-                <th>Nom</th>
-                <th>Prenom</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for usager in usagers %}
-            <tr>
-                <td>{{ usager.id }}</td>
-                <td>{{ usager.email }}</td>
-                <td>{{ usager.roles ? usager.roles|json_encode : '' }}</td>
-                <td>{{ usager.password }}</td>
-                <td>{{ usager.nom }}</td>
-                <td>{{ usager.prenom }}</td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_usager_new') }}">Create new</a>
+    <div class="card col-md-12">
+        <div class="card-header">
+            <a class="btn-back text-secondary" href="{{ path("app_default_index") }}">
+                <i class="fas fa-2x fa-arrow-circle-left"></i>
+            </a>
+            <h3>Mon Compte</h3>
+        </div>
+        <div class="card-body row">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Mes Commandes</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>{{ app.user.email }}</td>
+                    <td>{{ app.user.nom }}</td>
+                    <td>{{ app.user.prenom }}</td>
+                    <td>
+                        <a class="btn btn-sm btn-primary" href="{{ path("app_usager_commandes") }}">
+                            <span class="badge badge-light">{{ nbCommandes }}</span>
+                            commande(s)
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 {% endblock %}

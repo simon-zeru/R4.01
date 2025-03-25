@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Mon Panier{% endblock %}
-
+{% block title %}Rayon{% endblock %}
 {% block body %}
+
     <div class="card col-md-12">
         <div class="card-header">
-            <a class="btn-back text-secondary" href="{{ path('app_boutique') }}">
+            <a class="btn-back text-secondary" href="{{ path('app_panier_commander') }}">
                 <i class="fas fa-2x fa-arrow-circle-left"></i>
             </a>
             <h3>
@@ -14,14 +14,14 @@
         </div>
         <div class="card-body">
             L'usager
-            {{ nom }}
-            {{ prenom }}
+            {{ commande.getUsager.getPrenom }}
+            {{ commande.getUsager.getNom }}
             a passé la commande n°
-            <span class="badge badge-pill badge-secondary">{{ numCommande }}</span>
+            <span class="badge badge-pill badge-secondary">{{ commande.getId }}</span>
             le
-            {{ dateCommande }}
+            {{ commande.getDateCreation|date('Y/m/d H:i:s') }}
             <hr>
-            <a class="btn btn-primary" href="{{ path('app_boutique') }}">
+            <a class="btn btn-primary" href="{{ path('app_usager_commandes') }}">
                 Mes commandes
             </a>
         </div>

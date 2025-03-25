@@ -90,11 +90,8 @@ final class PanierController extends AbstractController
         $commande = $panierservice->panierToCommande($usager);
         $commande->setUsager($usager);
 
-        return $this->render('commande.html.twig', [
-                    'nom' => $usager->getNom(),
-                    'prenom' => $usager->getPrenom(),
-                    'numCommande' => $commande->getId(),
-                    'dateCommande' => $commande->getDateCreation(),
+        return $this->render('panier/commande.html.twig', [
+                    'commande' => $commande
                 ]);
     }
 
