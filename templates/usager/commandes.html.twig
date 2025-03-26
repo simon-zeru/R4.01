@@ -1,10 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes commandes{% endblock %}
+
+{% block body %}
 <div class="card col-md-12">
     <div class="card-header">
-        <a class="btn-back text-secondary" href="{{ path("app_default_index") }}">
+        <a class="btn-back text-secondary" href="{{ path("app_usager_index") }}">
             <i class="fas fa-2x fa-arrow-circle-left"></i>
         </a>
         <h3>Mes
-            <span class="badge badge-pill badge-info">{{ commandes.length }}</span>
+            <span class="badge badge-pill badge-info">{{ commandes|length }}</span>
             Commande(s)
         </h3>
     </div>
@@ -19,7 +24,7 @@
             </tr>
             </thead>
             <tbody>
-                {% if commandes.length == 0 %}
+                {% if commandes|length == 0 %}
                     <tr>
                         <td colspan="4">
 
@@ -37,13 +42,13 @@
                 {% for commande in commandes %}
                     <tr>
                         <td>
-                            <a class="btn btn-sm btn-danger" href="{{ path("app_usager_commande", {"idCommande": commande.getId()}) }}">Commande N°
-                                <span class="badge badge-light">{{ commande.getId() }}</span>
+                            <a class="btn btn-sm btn-danger" href="{{ path("app_usager_commande", {"id": commande.id}) }}">Commande N°
+                                <span class="badge badge-light">000 {{ commande.id }}</span>
                             </a>
                         </td>
-                        <td>24/03/2025 à 10:24</td>
+                        <td>{{ commande.dateCreation|date('Y/m/d H:i:s') }}</td>
                         <td class="text-right">
-                            {{ commande.getTotal }}
+                            {{ commande.total }}€
                         </td>
                         <td>
                             <i class="fas fa-hourglass-half text-danger"></i>
@@ -54,3 +59,4 @@
         </table>
     </div>
 </div>
+{% endblock %}

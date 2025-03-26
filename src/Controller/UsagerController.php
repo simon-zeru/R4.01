@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Usager;
-use App\Entity\Commande;
 use App\Repository\CommandeRepository;
 use App\Form\UsagerType;
 use App\Repository\UsagerRepository;
@@ -18,15 +17,15 @@ use Symfony\Component\Routing\Attribute\Route;
 final class UsagerController extends AbstractController
 {
     #[Route(name: 'app_usager_index', methods: ['GET'])]
-    public function index(UsagerRepository $commandeRepository): Response
+    public function index(CommandeRepository $commandeRepository): Response
     {
 
         $usager = $this->getUser();
 
         // Trouver les commandes en fonction de l'utilisateur
-        $commandes = $commandeRepository->findByUser($usager);
+        $commandes = $commandeRepository->findBy(['usager' => $usager], ['dateCreation' => 'DESC']);
 
-        return $this->render('panier/index.html.twig', [
+        return $this->render('usager/index.html.twig', [
             'nbCommandes' => count($commandes),
         ]);
     }
@@ -60,15 +59,30 @@ final class UsagerController extends AbstractController
     #[Route('/commandes',
             name: 'app_usager_commandes',
         )]
-    public function commandes(PanierService $panierservice, CommandeRepository $commandeRepository): Response
+    public function commandes(CommandeRepository $commandeRepository): Response
     {
         $usager = $this->getUser();
 
         // Trouver les commandes en fonction de l'utilisateur
-        $commandes = $commandeRepository->findByUser($usager);
+        $commandes = $commandeRepository->findBy(['usager' => $usager], ['dateCreation' => 'ASC']);
 
-        return $this->render('panier/commandes.html.twig', [
+        return $this->render('usager/commandes.html.twig', [
                     'commandes' => $commandes
                 ]);
+    }
+
+    #[Route('/commande/{id}',
+        name: 'app_usager_commande',
+        methods: ['GET'],
+        requirements: ['id'=>'\d+']
+        )]
+    public function commande(int $id, CommandeRepository $commandeRepository): Response
+    {
+        // Trouver la commande à partir de son identifiant
+        $commande = $commandeRepository->find($id);
+
+        return $this->render('usager/commande.html.twig', [
+            'commande' => $commande
+        ]);
     }
 }
