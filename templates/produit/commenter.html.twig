@@ -1,0 +1,33 @@
+{# templates/produit/commenter.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un commentaire sur {{ produit.libelle }}{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    {# Bouton retour vers la page produit #}
+    <a class="btn btn-outline-secondary mb-3" href="{{ path('app_produit', {'idProduit': produit.id}) }}">
+        <i class="fas fa-arrow-left"></i> Retour au produit
+    </a>
+
+    <h1>Laisser un commentaire pour "{{ produit.libelle }}"</h1>
+    <hr>
+
+    {# Affichage du formulaire #}
+    {{ form_start(commentaireForm) }}
+
+    {# Affiche les champs du formulaire (ex: texte, note) #}
+    {# 'form_row' affiche le label, le champ, et les erreurs éventuelles #}
+    {{ form_row(commentaireForm.texte) }} {# Adapte 'texte' si le nom du champ est différent #}
+    {{ form_row(commentaireForm.note) }} {# Adapte 'note' si le nom du champ est différent #}
+
+    {# Ajoute le reste des champs s'il y en a (champs cachés, etc.) #}
+    {{ form_rest(commentaireForm) }}
+
+    <button type="submit" class="btn btn-primary mt-3">
+        <i class="fas fa-check"></i> Envoyer mon commentaire
+    </button>
+    {{ form_end(commentaireForm) }}
+
+</div>
+{% endblock %}

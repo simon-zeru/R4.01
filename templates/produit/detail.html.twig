@@ -4,7 +4,7 @@
 
 {% block body %}
 <div class="container mt-4">
-    <a class="btn btn-outline-secondary mb-3" href="{{ path('app_boutique') }}">
+    <a class="btn btn-outline-secondary mb-3" href="{{ path('app_boutique_rayon', { 'idCategorie': produit.categorie.id }) }}">
         <i class="fas fa-arrow-left"></i> Retour
     </a>
 
@@ -12,7 +12,7 @@
         <div class="col-md-6 mb-3">
             {# --- Image --- #}
             {# Adapte le chemin si tes images sont ailleurs dans /public #}
-            <img src="{{ asset('images/produits/' ~ produit.visuel) }}" alt="{{ produit.libelle }}" class="img-fluid rounded border">
+            <img src="{{asset(produit.visuel)}}" alt="{{ produit.libelle }}" class="img-fluid rounded border">
         </div>
         <div class="col-md-6">
             {# --- Libellé (Nom) --- #}
@@ -32,11 +32,82 @@
 
             {# --- Bouton Ajouter au Panier (Simple) --- #}
             {# Fonctionnalité à ajouter plus tard #}
-            <button type="button" class="btn btn-success btn-lg">
+            <button type="button" class="btn btn-success btn-lg" onclick="location = '{{ path('app_panier_ajouter', {'idProduit': produit.id}) }}'">
                  <i class="fas fa-shopping-cart mr-2"></i>Ajouter au Panier {# Icône FontAwesome optionnelle #}
             </button>
 
+            {% if is_granted('ROLE_USER') %}
+                <a href="{{ path('app_produit_commenter', {'idProduit': produit.id}) }}" class="btn btn-info btn-lg ml-2">
+                    <i class="fas fa-comment-dots mr-2"></i>Laisser un avis
+                </a>
+            {% else %}
+                 {# Mettre un message ou un lien de connexion #}
+                 <p class="mt-3"><a href="{{ path('app_login') }}">Connectez-vous</a> pour laisser un avis.</p>
+            {% endif %}
+
         </div>
+    </div>
+
+    <hr class="my-4">
+
+    <h2>Avis des clients</h2>
+
+    {# Affichage Note Moyenne #}
+    <div class="mb-3">
+        {% if noteMoyenne is not null %}
+            {# Exemple simple d'affichage d'étoiles (nécessite FontAwesome) #}
+            {% set noteArrondie = noteMoyenne | round(0, 'floor') %} {# Arrondi inférieur #}
+            {% set demiEtoile = (noteMoyenne - noteArrondie) >= 0.5 %}
+            <span class="h4 text-warning">
+                Note moyenne :
+                {% for i in 1..noteArrondie %}
+                    <i class="fas fa-star"></i>{# Etoiles pleines #}
+                {% endfor %}
+                {% if demiEtoile and noteArrondie < 5 %}
+                    <i class="fas fa-star-half-alt"></i>{# Demi-étoile #}
+                    {% set noteArrondie = noteArrondie + 1 %}
+                {% endif %}
+                 {% for i in noteArrondie..4 %} {# Complète avec étoiles vides #}
+                     <i class="far fa-star"></i>
+                 {% endfor %}
+                 ({{ noteMoyenne | number_format(1, ',', ' ') }}/5)
+            </span>
+            <span class="text-muted"> basé sur {{ commentaires | length }} avis.</span>
+        {% else %}
+            <p>Ce produit n'a pas encore reçu d'évaluation.</p>
+        {% endif %}
+    </div>
+
+    {# Affichage Liste des Commentaires #}
+    <div class="list-group">
+        {% for commentaire in commentaires %}
+            <div class="list-group-item list-group-item-action flex-column align-items-start mb-2">
+                <div class="d-flex w-100 justify-content-between">
+                    {# Auteur (Prénom) et Note #}
+                    <h5 class="mb-1">
+                        {{ commentaire.usager.prenom | default('Utilisateur') }} {# Assure-toi que Usager a getPrenom() #}
+                        <small class="text-warning ml-2">
+                             {% for i in 1..commentaire.note %}
+                                 <i class="fas fa-star"></i>{# Etoiles pleines #}
+                             {% endfor %}
+                             {% for i in commentaire.note..4 %} {# Complète avec étoiles vides #}
+                                 <i class="far fa-star"></i>
+                             {% endfor %}
+                            ({{ commentaire.note }}/5)
+                        </small>
+                    </h5>
+                    {# Optionnel: Afficher la date de création #}
+                    {# <small class="text-muted">{{ commentaire.dateCreation | date('d/m/Y H:i') }}</small> #}
+                </div>
+                {# Texte du commentaire #}
+                <p class="mb-1">{{ commentaire.texte | nl2br }}</p>
+            </div>
+        {% else %}
+            {# Message si pas de commentaires #}
+             {% if noteMoyenne is null %} {# N'affiche que si pas déjà dit qu'il n'y a pas de note #}
+                 <p>Soyez le premier à laisser un commentaire !</p>
+             {% endif %}
+        {% endfor %}
     </div>
 
 </div>

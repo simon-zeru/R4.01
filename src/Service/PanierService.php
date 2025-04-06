@@ -7,7 +7,6 @@ use App\Entity\Commande;
 use App\Entity\LigneCommande;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Usager;
-use Doctrine\ORM\EntityManagerInterface;
 
 class PanierService
 {

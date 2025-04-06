@@ -14,6 +14,27 @@ services:
       # - database_data:/var/lib/postgresql/data:rw
       # - ./docker/db/data:/var/lib/postgresql/data:rw
 
+  phpmyadmin:
+    # Utilise l'image officielle phpMyAdmin
+    image: phpmyadmin
+    # Redémarre automatiquement si besoin
+    restart: always
+    # Mappe le port 80 interne de phpMyAdmin au port 3307 de ta machine Windows
+    ports:
+      - "3308:80"
+    # Variables d'environnement pour phpMyAdmin
+    environment:
+      # Indique à phpMyAdmin où trouver le serveur de BDD.
+      # 'db' est le nom du service MariaDB dans CE fichier compose.yaml !
+      PMA_HOST: database
+      # Optionnel : Spécifie le port interne de MariaDB (si différent de 3306)
+      PMA_PORT: 3306
+      # Tu peux ajouter d'autres variables PMA_* ici si besoin (ex: taille d'upload)
+      # PMA_UPLOAD_LIMIT: 1G
+    # Dépendance : S'assure que le service 'db' est démarré avant phpMyAdmin
+    depends_on:
+      - database
+
 volumes:
   mariadb_data:
   # database_data: # Assure-toi que ce nom correspond à celui utilisé dans la section volumes du service

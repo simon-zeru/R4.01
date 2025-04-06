@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Repository\ProduitRepository;
-use App\Repository\UsagerRepository;
 use App\Service\PanierService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -82,7 +81,7 @@ final class PanierController extends AbstractController
     #[Route('/commander',
         name: 'app_panier_commander',
     )]
-    public function commander(PanierService $panierservice, UsagerRepository $usagerRepository): Response
+    public function commander(PanierService $panierservice): Response
     {
         $usager = $this->getUser();
 

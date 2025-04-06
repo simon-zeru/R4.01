@@ -29,6 +29,30 @@
                     {{ 'navbar.produit' | trans }}
                 </a>
             </li>
+
+            {# --- NOUVELLE SECTION BACK-OFFICE --- #}
+            {% if is_granted('ROLE_ADMIN') %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="adminMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-cogs mr-1"></i> {# Icône engrenage #}
+                        Administration
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="adminMenuLink">
+                        {# Lien vers le CRUD Catégorie #}
+                        <a class="dropdown-item" href="{{ path('app_categorie_index') }}"> {# Utilise le bon nom de route #}
+                            <i class="fas fa-tags fa-fw mr-1"></i> {# Icône tags #}
+                            Gérer les Catégories
+                        </a>
+                        {# Lien vers le CRUD Produit #}
+                        <a class="dropdown-item" href="{{ path('app_produit_index') }}"> {# Utilise le bon nom de route #}
+                            <i class="fas fa-box fa-fw mr-1"></i> {# Icône boîte #}
+                            Gérer les Produits
+                        </a>
+                    </div>
+                </li>
+            {% endif %}
+            {# --- FIN NOUVELLE SECTION BACK-OFFICE --- #}
+
             {# TODO : ajouter au fil des TPs les autres éléments du menu #}
             <ul class="navbar-nav my-0">
                 <li class="nav-item dropdown">

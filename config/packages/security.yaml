@@ -39,6 +39,10 @@ security:
         - { path: ^/(%app.supported_locales%)/usager/inscription, roles: PUBLIC_ACCESS }
         - { path: ^/(%app.supported_locales%)/usager, roles: ROLE_CLIENT }
         - { path: ^/(%app.supported_locales%)/panier/commander, roles: ROLE_CLIENT }
+        - { path: ^/(%app.supported_locales%)/produit/\d+$, roles: PUBLIC_ACCESS, methods: [GET] }
+        - { path: ^/(%app.supported_locales%)/produit, roles: ROLE_ADMIN }
+        - { path: ^/(%app.supported_locales%)/categorie, roles: ROLE_ADMIN }
+        
 
 when@test:
     security:

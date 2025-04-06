@@ -38,9 +38,16 @@ class Produit
     #[ORM\OneToMany(targetEntity: LigneCommande::class, mappedBy: 'produit', orphanRemoval: true)]
     private Collection $ligneCommandes;
 
+    /**
+     * @var Collection<int, Commentaire>
+     */
+    #[ORM\OneToMany(targetEntity: Commentaire::class, mappedBy: 'produit', orphanRemoval: true)]
+    private Collection $commentaires;
+
     public function __construct()
     {
         $this->ligneCommandes = new ArrayCollection();
+        $this->commentaires = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -132,6 +139,36 @@ class Produit
             // set the owning side to null (unless already changed)
             if ($ligneCommande->getProduit() === $this) {
                 $ligneCommande->setProduit(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Commentaire>
+     */
+    public function getCommentaires(): Collection
+    {
+        return $this->commentaires;
+    }
+
+    public function addCommentaire(Commentaire $commentaire): static
+    {
+        if (!$this->commentaires->contains($commentaire)) {
+            $this->commentaires->add($commentaire);
+            $commentaire->setProduit($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentaire(Commentaire $commentaire): static
+    {
+        if ($this->commentaires->removeElement($commentaire)) {
+            // set the owning side to null (unless already changed)
+            if ($commentaire->getProduit() === $this) {
+                $commentaire->setProduit(null);
             }
         }
 
