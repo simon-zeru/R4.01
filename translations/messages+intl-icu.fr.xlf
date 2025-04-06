@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="fr" target-language="fr" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="zHth5gd" resname="boutique.index.header">
+        <source>boutique.index.header</source>
+        <target>Boutique</target>
+      </trans-unit>
+      <trans-unit id="ohP2VVV" resname="boutique.index.rayon">
+        <source>boutique.index.rayon</source>
+        <target>rayon(s) proposé(s) </target>
+      </trans-unit>
+      <trans-unit id="nsaIjaD" resname="boutique.product.header">
+        <source>boutique.product.header</source>
+        <target>Rayon</target>
+      </trans-unit>
+      <trans-unit id="UHmRcvb" resname="boutique.product.product">
+        <source>boutique.product.product</source>
+        <target>produit(s) disponible(s) </target>
+      </trans-unit>
+      <trans-unit id="L8KeYXd" resname="navbar.header">
+        <source>navbar.header</source>
+        <target>Accueil Boutique</target>
+      </trans-unit>
+      <trans-unit id="kuhtb5p" resname="navbar.boutique">
+        <source>navbar.boutique</source>
+        <target>Boutique</target>
+      </trans-unit>
+      <trans-unit id="nCSBDIb" resname="navbar.contact">
+        <source>navbar.contact</source>
+        <target>Contact</target>
+      </trans-unit>
+      <trans-unit id="1N1_9Ss" resname="default.index.header">
+        <source>default.index.header</source>
+        <target>Acceuil</target>
+      </trans-unit>
+      <trans-unit id="0Wt4__T" resname="default.index.title">
+        <source>default.index.title</source>
+        <target>Boutique R4.01</target>
+      </trans-unit>
+      <trans-unit id="NjAVDVc" resname="default.index.rien">
+        <source>default.index.rien</source>
+        <target>Ici, rien à vendre, c'est juste pour apprendre...</target>
+      </trans-unit>
+      <trans-unit id="Ikej3sY" resname="default.contact.header">
+        <source>default.contact.header</source>
+        <target>Garder le contact</target>
+      </trans-unit>
+      <trans-unit id="VPCxBGX" resname="default.contact.text">
+        <source>default.contact.text</source>
+        <target>Garder le contact</target>
+      </trans-unit>
+      <trans-unit id="GzcgurK" resname="default.contact.semestre">
+        <source>default.contact.semestre</source>
+        <target>BUT INFO Semestre 4</target>
+      </trans-unit>
+      <trans-unit id="36sudtl" resname="default.contact.module">
+        <source>default.contact.module</source>
+        <target>Module R4.01</target>
+      </trans-unit>
+      <trans-unit id="p6Qpu3W" resname="default.contact.author">
+        <source>default.contact.author</source>
+        <target>Ph. Martin, 2022/24</target>
+      </trans-unit>
+      <trans-unit id="b41NNXf" resname="boutique.chercher.header">
+        <source>boutique.chercher.header</source>
+        <target>Recherche</target>
+      </trans-unit>
+      <trans-unit id="sRrLMZe" resname="boutique.chercher.text">
+        <source>boutique.chercher.text</source>
+        <target>Recherche de</target>
+      </trans-unit>
+      <trans-unit id="QxNhFjS" resname="boutique.chercher.product">
+        <source>boutique.chercher.product</source>
+        <target>produit(s)</target>
+      </trans-unit>
+      <trans-unit id="tycb6TZ" resname="navbar.search">
+        <source>navbar.search</source>
+        <target>chercher produits(s)...</target>
+      </trans-unit>
+      <trans-unit id="aa5bCI1" resname="navbar.produit">
+        <source>navbar.produit</source>
+        <target>Produit(s)</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

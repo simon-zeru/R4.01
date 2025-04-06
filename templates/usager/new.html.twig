@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+    <div class="card col-md-6 offset-md-3">
+        <div class="card-header">
+            <a class="btn-back text-secondary" href="/info/R401/">
+                <i class="fas fa-2x fa-arrow-circle-left"></i>
+            </a>
+            <h3>
+                <i class="fas fa-user-plus"></i>
+                Inscription
+            </h3>
+        </div>
+        <div class="card-body">
+            {{ include('usager/_form.html.twig') }}
+            <hr>
+            <div class="col-md-12 text-right">
+                <p>
+                    Déjà client ?
+                    <a class="btn btn-secondary" href="{{ path('app_login') }}">
+                        Connexion
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

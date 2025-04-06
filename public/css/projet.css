@@ -1,0 +1,76 @@
+body {
+    padding-top: 5rem;
+    background-color: #eee;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+.main-div {
+    padding: 10px;
+    text-align: center;
+}
+
+.clickable:hover {
+    border-width: 3px;
+    border-color: #0069D9;
+    cursor: pointer;
+    background-color: white;
+}
+
+.card {
+    margin-bottom: 25px;
+    border-width: 3px;
+    padding: 5px;
+}
+
+.card-img {
+    height: 300px; 
+    width: auto; 
+    display: block; 
+    margin-top: 10px;
+    margin-left: auto; 
+    margin-right: auto;
+}
+
+.card-img-produit {
+    height: 150px; 
+    width: auto; 
+    display: block; 
+    margin-top: 10px;
+    margin-left: auto; 
+    margin-right: auto;
+}
+
+.cart-img-produit {
+    height: 40px; 
+    width: auto; 
+    display: block; 
+    margin-left: auto; 
+    margin-right: auto;
+}
+
+th , td {
+    vertical-align: middle !important;
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+}
+
+.BDC_CaptchaDiv {
+    margin: auto;
+    display: inline;
+}
+
+.BDC_Placeholder {
+    min-height: 10px !important;
+}
+
+.BDC_CaptchaImageDiv > a {
+    opacity: 0%;
+    cursor: default;
+}
+
+#ExampleCaptcha_CaptchaImage {
+    margin-top: 5px;
+}

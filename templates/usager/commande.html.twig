@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commande n°{{ commande.id }}{% endblock %}
+
+{% block body %}
+<div class="card col-md-12">
+    <div class="card-header">
+        <a class="btn-back text-secondary" href="{{ path('app_usager_commandes') }}">
+            <i class="fas fa-2x fa-arrow-circle-left"></i>
+        </a>
+        <h3>
+            Ma commande
+            <span class="badge badge-pill badge-info">000 {{ commande.id }}</span>
+            du
+            {{ commande.dateCreation|date('Y/m/d H:i:s') }}
+            <span class="badge badge-pill badge-danger">
+				en attente
+				<i class="fas fa-hourglass-half"></i>
+				</span>
+            <br/>
+            Montant :
+            {{ commande.total | currency_convert }}
+        </h3>
+    </div>
+    <div class="card-body row">
+        <table class="table table-striped table-sm table-hover fit">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Produit</th>
+                <th class="text-right">Prix</th>
+                <th>Quantité</th>
+                <th class="text-right">Total</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for ligneCommande in commande.ligneCommandes %}
+            <tr>
+                <td>
+                    <img src="{{ asset(ligneCommande.produit.visuel) }}" class="cart-img-produit" alt="Tomate">
+                </td>
+                <td>
+                    <a href="{{ path('app_boutique_rayon', {'idCategorie': ligneCommande.produit.categorie.id}) }}">
+                        <b>{{ ligneCommande.produit.libelle }}</b>
+                    </a>
+                </td>
+                <td class="text-right">
+                    {{ ligneCommande.produit.prix | currency_convert }}
+                </td>
+                <td>
+                    {{ ligneCommande.quantite}}
+                </td>
+                <td class="text-right">
+                    {{ ( (ligneCommande.prix * 1.0) * ligneCommande.quantite ) | currency_convert }}
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+            <tfoot>
+            <tr>
+                <th class="text-right" colspan="4">
+                    Total
+                </th>
+                <th class="text-right">
+                    {{ commande.total | currency_convert }}
+                </th>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+{% endblock %}

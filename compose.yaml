@@ -1,0 +1,19 @@
+# Dans compose.yaml
+services:
+  database:
+    image: mariadb:10.11
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password # Mot de passe root DANS le conteneur
+      MYSQL_DATABASE: symfony_zerus_local # Nom BDD locale
+      MYSQL_USER: symfony_user # User local
+      MYSQL_PASSWORD: password_local # Mot de passe local (ou 'test', mais sois cohérent)
+    ports:
+      - "3307:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+      # - database_data:/var/lib/postgresql/data:rw
+      # - ./docker/db/data:/var/lib/postgresql/data:rw
+
+volumes:
+  mariadb_data:
+  # database_data: # Assure-toi que ce nom correspond à celui utilisé dans la section volumes du service

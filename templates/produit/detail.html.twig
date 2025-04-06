@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProduitController!{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <a class="btn btn-outline-secondary mb-3" href="{{ path('app_boutique') }}">
+        <i class="fas fa-arrow-left"></i> Retour
+    </a>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            {# --- Image --- #}
+            {# Adapte le chemin si tes images sont ailleurs dans /public #}
+            <img src="{{ asset('images/produits/' ~ produit.visuel) }}" alt="{{ produit.libelle }}" class="img-fluid rounded border">
+        </div>
+        <div class="col-md-6">
+            {# --- Libellé (Nom) --- #}
+            <h1>{{ produit.libelle }}</h1>
+            <hr>
+
+            {# --- Prix --- #}
+            {# Utilisation de number_format pour afficher le prix #}
+            <p class="h4 text-primary mb-3">
+                <strong>{{ produit.prix | number_format(2, ',', ' ') }} €</strong>
+            </p>
+
+            {# --- Description (Texte) --- #}
+            <div class="product-description mb-4">
+                <p>{{ produit.texte | nl2br }}</p> {# nl2br pour les sauts de ligne #}
+            </div>
+
+            {# --- Bouton Ajouter au Panier (Simple) --- #}
+            {# Fonctionnalité à ajouter plus tard #}
+            <button type="button" class="btn btn-success btn-lg">
+                 <i class="fas fa-shopping-cart mr-2"></i>Ajouter au Panier {# Icône FontAwesome optionnelle #}
+            </button>
+
+        </div>
+    </div>
+
+</div>
+{% endblock %}

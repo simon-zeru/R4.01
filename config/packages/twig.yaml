@@ -1,0 +1,9 @@
+twig:
+    file_name_pattern: '*.twig'
+    form_themes: ['bootstrap_4_layout.html.twig']
+    globals:
+        supported_locales: '%app.supported_locales%'
+
+when@test:
+    twig:
+        strict_variables: true

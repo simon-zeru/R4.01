@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Se connecter!{% endblock %}
+
+{% block body %}
+    <div class="card col-md-6 offset-3">
+        <div class="card-header">
+            <a class="btn-back text-secondary" href="{{ path('app_default_index') }}">
+                <i class="fas fa-2x fa-arrow-circle-left"></i>
+            </a>
+            <h3>
+                <i class="fas fa-user-check"></i>
+                Connexion
+            </h3>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                {% if app.user %}
+                    <div class="mb-3">
+                        Vous êtes connecté en tant que
+                        {{ app.user.userIdentifier }},
+                        <a href="{{ path('app_logout') }}">Se déconnecter</a>
+                    </div>
+                {% endif %}
+                <label for="inputEmail">Email</label>
+                <input type="email" value="{{ last_username }}" name="_username" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+                <label for="inputPassword">Mot de Passe</label>
+                <input type="password" name="_password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+
+                <input type="hidden" name="_csrf_token"
+                       value="{{ csrf_token('authenticate') }}"
+                >
+                <br/>
+                <button class="btn btn-primary btn-block" type="submit">
+                    Connexion
+                </button>
+            </form>
+            <hr>
+            <div class="col-md-12 text-right">
+                <p>
+                    Nouveau client ?
+                    <a class="btn btn-sm btn-secondary" type="submit" href="{{ path('app_usager_new') }}">
+                        Inscription
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

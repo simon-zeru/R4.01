@@ -1,0 +1,115 @@
+{# barre de navigation  #}
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand" href="{{ path("app_default_index") }}">
+        <i class="fas fa-home"></i>
+        {{ 'navbar.header' | trans }}
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
+            aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path("app_boutique") }}">
+                    <i class="fas fa-store"></i>
+                    {{ 'navbar.boutique' | trans }}
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path("app_default_contact") }}">
+                    <i class="fas fa-comments"></i>
+                    {{ 'navbar.contact' | trans }}
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path("app_panier_index") }}">
+                    <i class="fas fas fa-shopping-cart"></i>
+                    {{ render(controller('App\\Controller\\PanierController::nombreProduits')) }}
+                    {{ 'navbar.produit' | trans }}
+                </a>
+            </li>
+            {# TODO : ajouter au fil des TPs les autres éléments du menu #}
+            <ul class="navbar-nav my-0">
+                <li class="nav-item dropdown">
+					<span class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+						<i class="fas fa-user"></i>
+													{{ app.user ? app.user.prenom : "Usager" }}											</span>
+                    <div class="dropdown-menu" aria-labelledby="dropdown02" style="min-width: 5rem;">
+                        <a class="dropdown-item {{ app.user ? "disabled" : "" }}" href="{{ path("app_login") }}">
+                            Connexion						</a>
+                        <a class="dropdown-item {{ app.user ? "disabled" : "" }}" href="{{ path("app_usager_new") }}">
+                            Inscription						</a>
+                        <a class="dropdown-item {{ app.user ? "" : "disabled" }}" href="{{ path("app_usager_index") }}">
+                            Mon Compte						</a>
+                        <a class="dropdown-item {{ app.user ? "" : "disabled" }}" href="{{ path("app_usager_commandes") }}">
+                            Mes Commandes						</a>
+                        <a class="dropdown-item {{ app.user ? "" : "disabled" }}" href="{{ path("app_logout") }}">
+                            Déconnexion						</a>
+                    </div>
+                </li>
+            </ul>
+        </ul>
+        <!-- Début champ de recherche -->
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" id="searchString" type="text" placeholder="{{ 'navbar.search' | trans }}" aria-label="Search">
+            <button class="btn btn-secondary my-2 my-sm-0" id="searchButton">
+                <i class="fas fa-search"></i>
+            </button>
+        </form>
+        <!-- Fin champ de recherche -->
+        <!-- Début menu des monnaies -->
+        <ul class="navbar-nav my-0">
+            {% set current_currency = app.session.get('current_currency', 'EUR') %}
+            {% set available_currencies = ['EUR', 'GBP', 'USD', 'CAD', 'XOF', 'PHP', 'IDR'] %}
+
+            {# Informations sur la route actuelle pour la redirection #}
+            {% set current_route = app.request.attributes.get('_route') %}
+
+            <li class="nav-item dropdown">
+                <span class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                   {{ current_currency }}
+                </span>
+                <div class="dropdown-menu" aria-labelledby="dropdown02" style="min-width: 5rem;">
+                    {% for currency_code in available_currencies %}
+                    <a class="dropdown-item {% if currency_code == current_currency %}active{% endif %}"
+                       href="{{ path('app_boutique_changermonnaie', {
+                               'currency': currency_code,
+                               'redirect': current_route,
+                               '_locale': app.request.locale
+                           }) }}">
+                        {{ currency_code }}
+                    </a>
+                    {% endfor %}
+                </div>
+            </li>
+        </ul>
+        <!-- Fin menu des monnaies -->
+        <!-- Début menu des langues -->
+        <ul class="navbar-nav my-0">
+            <li class="nav-item dropdown">
+                {% set locale = app.request.attributes.get('_locale') %}
+                <span class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                      aria-expanded="false">
+            <img src="{{ asset('images/locale/' ~ locale ~ '.png') }}" alt="{{ locale }}">
+
+        </span>
+
+                <div class="dropdown-menu" aria-labelledby="dropdown01" style="min-width: 5rem;">
+                    {% for uneLocale in supported_locales | split('|') %}
+                        {% if uneLocale != locale %}
+                            {% set route = app.request.attributes.get('_route') %}
+                            {% set params = app.request.attributes.get('_route_params') %}
+                            {% set params = params | merge({'_locale': uneLocale }) %}
+                            <a class="dropdown-item" href="{{ path(route, params) }}">
+                                <img src="{{ asset('images/locale/' ~ uneLocale ~ '.png') }}" alt="{{ uneLocale }}">
+                            </a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </li>
+        </ul>
+
+        <!-- Fin Menu des langues -->
+    </div>
+</nav>
